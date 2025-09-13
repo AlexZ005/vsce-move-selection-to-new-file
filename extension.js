@@ -90,29 +90,11 @@ function activate(context) {
             edit.delete(selection);
         });
 
-        // Ask user if they want new file or existing file
-        const choice = await vscode.window.showQuickPick(
-            ['Choose File From Workspace', 'Choose Existing File', 'New File'],
-            { placeHolder: 'Move selection to...' }
-        );
-
-        if (choice === 'New File') {
-            const doc = await vscode.workspace.openTextDocument({
-                language: editor.document.languageId,
-                content: codeToMove
-            });
-            vscode.window.showTextDocument(doc, { preview: false });
-        } else if (choice === 'Choose Existing File') {
-            await moveToChosenFile({
-                codeToMove,
-                languageId: editor.document.languageId
-            });
-        } else if (choice === 'Choose File From Workspace') {
             await moveToWorkspaceFile({
                 codeToMove,
                 languageId: editor.document.languageId
             });
-        }
+
     }
 
     context.subscriptions.push(
